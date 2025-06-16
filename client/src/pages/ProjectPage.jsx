@@ -3,26 +3,28 @@ import { fetchProjects, createProject } from "../api/projectApi";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { useContext } from "react";
+
 const ProjectsPage = () => {
   const navigate = useNavigate();
   const [projects, setProjects] = useState([]);
   const [form, setForm] = useState({ title: "", description: "" });
  const auth = useContext(AuthContext);
 const token = auth?.token;
-
+const {user }=useContext(AuthContext);
 
 
   useEffect(() => {
     const getProjects = async () => {
       try {
-        const res = await fetchProjects();
+        if(!user?.token) return;
+        const res = await fetchProjects(user.token);
         setProjects(res.data);
       } catch (err) {
         console.error("Failed to fetch projects", err);
       }
     };
     getProjects();
-  }, []);
+  }, [user]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
