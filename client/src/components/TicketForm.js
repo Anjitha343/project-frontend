@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const TicketForm = ({ projectId, token, onTicketCreated }) => {
+const TicketForm = ({
+  projectId,
+  token,
+  onTicketCreated,
+  onTicketUpdated,
+  initialData = {},
+  mode = 'create',
+}) => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -10,6 +17,19 @@ const TicketForm = ({ projectId, token, onTicketCreated }) => {
     assignee: '',
   });
   const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    // Prefill form if editing
+    if (mode === 'edit' && initialData) {
+      setFormData({
+        title: initialData.title || '',
+        description: initialData.description || '',
+        priority: initialData.priority || 'Low',
+        status: initialData.status || 'Open',
+        assignee: initialData.assignee?._id || '',
+      });
+    }
+  }, [initialData, mode]);
 
   useEffect(() => {
     axios.get('http://localhost:5000/api/users', {
@@ -23,27 +43,38 @@ const TicketForm = ({ projectId, token, onTicketCreated }) => {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    console.log("Form submitted",formData);
     try {
-      await axios.post(`http://localhost:5000/api/tickets`, { ...formData, projectId }, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      onTicketCreated();
-      setFormData({
-        title: '',
-        description: '',
-        priority: 'Low',
-        status: 'Open',
-        assignee: '',
-      });
+      if (mode === 'edit') {
+        await axios.put(`http://localhost:5000/api/tickets/${initialData._id}`, formData, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (onTicketUpdated) onTicketUpdated();
+      } else {
+        await axios.post(`http://localhost:5000/api/tickets`, { ...formData, projectId }, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (onTicketCreated) onTicketCreated();
+        setFormData({
+          title: '',
+          description: '',
+          priority: 'Low',
+          status: 'Open',
+          assignee: '',
+        });
+      }
     } catch (err) {
       console.error(err);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md space-y-4 max-w-xl mx-auto mt-4">
-      <h2 className="text-2xl font-semibold mb-2 text-gray-800">Create Ticket</h2>
+    <form
+      onSubmit={handleSubmit}
+      className="bg-white p-6 rounded-lg shadow-md space-y-4 max-w-xl mx-auto mt-4"
+    >
+      <h2 className="text-2xl font-semibold mb-2 text-gray-800">
+        {mode === 'edit' ? 'Edit Ticket' : 'Create Ticket'}
+      </h2>
 
       <input
         name="title"
@@ -102,7 +133,7 @@ const TicketForm = ({ projectId, token, onTicketCreated }) => {
         type="submit"
         className="w-full bg-indigo-600 text-white p-3 rounded-md hover:bg-indigo-700 transition"
       >
-        Create Ticket
+        {mode === 'edit' ? 'Update Ticket' : 'Create Ticket'}
       </button>
     </form>
   );

@@ -5,18 +5,12 @@ const API = axios.create({
   baseURL: "http://localhost:5000/api",
 });
 
-// Attach token to all requests automatically
-API.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});
-
 // Project API calls
-export const createProject = (data) => API.post("/projects", data);
-export const fetchProjects = () => API.get("/projects");
+export const createProject = (data,token) => API.post("/projects", data,{
+  headers:{Authorization :`Bearer ${token}`},
+});
+export const fetchProjects = () => API.get("/projects",{
+  headers:{Authorization :`Bearer ${token}`},});
 export const updateProject = (id, data) => API.put(`/projects/${id}`, data);
 export const deleteProject = (id) => API.delete(`/projects/${id}`);
 

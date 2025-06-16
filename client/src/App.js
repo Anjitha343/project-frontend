@@ -12,7 +12,7 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-       <div className=" flex items-center justify-center bg-gradient-to-br from-blue-100 to-blue-300">
+       <div className=" flex h-full items-center justify-center bg-gradient-to-br from-blue-100 to-blue-300">
 
           <Routes>
            

@@ -1,6 +1,9 @@
 import React from 'react';
 import LogoutButton from './Logout';
+import { useState,useEffect } from 'react';
 const DashboardLayout = ({ children }) => {
+
+  
   return (
     <div className="flex min-h-screen w-full bg-gray-100">
       {/* Sidebar */}
@@ -16,8 +19,10 @@ const DashboardLayout = ({ children }) => {
 
       {/* Main Content */}
       <main className="flex-1 p-4">
-        {children}
+       {children}{ }
       </main>
+     
+
     </div>
   );
 };
