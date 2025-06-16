@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import axios from 'axios';
 
 const AddProjectUserForm = ({ projectId, token, onUserAdded }) => {
@@ -20,7 +20,7 @@ const AddProjectUserForm = ({ projectId, token, onUserAdded }) => {
     setSuccess('');
 
     try {
-      const res = await axios.post(
+      await axios.post(
         `http://localhost:5000/api/projects/${projectId}/admin-add-user`,
         {
           name: formData.name,
