@@ -9,7 +9,7 @@ const API = axios.create({
 export const createProject = (data,token) => API.post("/projects", data,{
   headers:{Authorization :`Bearer ${token}`},
 });
-export const fetchProjects = () => API.get("/projects",{
+export const fetchProjects = (token) => API.get("/projects",{
   headers:{Authorization :`Bearer ${token}`},});
 export const updateProject = (id, data) => API.put(`/projects/${id}`, data);
 export const deleteProject = (id) => API.delete(`/projects/${id}`);
