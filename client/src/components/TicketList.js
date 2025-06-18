@@ -9,7 +9,7 @@ const TicketList = ({ projectId, token }) => {
 
   const fetchTickets =useCallback( async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/tickets/project/${projectId}`, {
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/tickets/project/${projectId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTickets(res.data);
@@ -28,7 +28,7 @@ const TicketList = ({ projectId, token }) => {
 
   const confirmDelete = async () => {
     try {
-      await axios.delete(`http://localhost:5000/api/tickets/${ticketToDelete._id}`, {
+      await axios.delete(`${process.env.REACT_APP_API_URL}/tickets/${ticketToDelete._id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTickets((prev) => prev.filter((t) => t._id !== ticketToDelete._id));

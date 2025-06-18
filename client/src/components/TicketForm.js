@@ -32,7 +32,7 @@ const TicketForm = ({
   }, [initialData, mode]);
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/users', {
+    axios.get(`${process.env.REACT_APP_API_URL}/users`, {
       headers: { Authorization: `Bearer ${token}` },
     }).then(res => setUsers(res.data));
   }, [token]);
@@ -45,12 +45,12 @@ const TicketForm = ({
     e.preventDefault();
     try {
       if (mode === 'edit') {
-        await axios.put(`http://localhost:5000/api/tickets/${initialData._id}`, formData, {
+        await axios.put(`${process.env.REACT_APP_API_URL}/tickets/${initialData._id}`, formData, {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (onTicketUpdated) onTicketUpdated();
       } else {
-        await axios.post(`http://localhost:5000/api/tickets`, { ...formData, projectId }, {
+        await axios.post(`${process.env.REACT_APP_API_URL}/tickets`, { ...formData, projectId }, {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (onTicketCreated) onTicketCreated();

@@ -17,7 +17,7 @@ const KanbanBoard = ({ tickets=[], onDragEnd, token, user, fetchTickets }) => {
   const handleDelete = async (ticketId) => {
     
     try {
-      await axios.delete(`http://localhost:5000/api/tickets/${ticketId}`, {
+      await axios.delete(`${process.env.REACT_APP_API_URL}/tickets/${ticketId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setConfirmDeleteId(null);
@@ -169,7 +169,7 @@ const KanbanBoard = ({ tickets=[], onDragEnd, token, user, fetchTickets }) => {
           onClick={async () => {
             try {
               await axios.put(
-                `http://localhost:5000/api/tickets/${editTicket._id}`,
+                `${process.env.REACT_APP_API_URL}/tickets/${editTicket._id}`,
                 {
                   title: editTicket.title,
                   description: editTicket.description,

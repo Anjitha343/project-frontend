@@ -38,7 +38,7 @@ const DashboardPage = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/projects', {
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}/projects`, {
           headers: {
             Authorization: `Bearer ${ token }`,
           },
@@ -62,7 +62,7 @@ const DashboardPage = () => {
     if (filters.assignee) queryParams.append('assignee', filters.assignee);
     if (filters.search) queryParams.append('search', filters.search);
       try{
-        const res = await axios.get(`http://localhost:5000/api/tickets/project/${projectId}?${queryParams.toString()}`, {
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}/tickets/project/${projectId}?${queryParams.toString()}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -95,7 +95,7 @@ const DashboardPage = () => {
   // ✅ Update in database
   try {
     await axios.put(
-      `http://localhost:5000/api/tickets/${draggableId}`,
+      `${process.env.REACT_APP_API_URL}/api/tickets/${draggableId}`,
       { status: destination.droppableId },
       { headers: { Authorization: `Bearer ${token}` } }
     );
@@ -108,7 +108,7 @@ const DashboardPage = () => {
 useEffect(() => {
   const fetchUsers = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/users', {
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/users`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setUsers(res.data);
@@ -195,7 +195,7 @@ useEffect(() => {
     if (filters.assignee) queryParams.append('assignee', filters.assignee);
     if (filters.search) queryParams.append('search', filters.search);
 
-    axios.get(`http://localhost:5000/api/tickets/project/${projectId}?${queryParams.toString()}`, {
+    axios.get(`${process.env.REACT_APP_API_URL}/tickets/project/${projectId}?${queryParams.toString()}`, {
       headers: { Authorization: `Bearer ${token}` },
     }).then(res => setTickets(res.data))
       .catch(err => console.error('Error fetching tickets:', err));

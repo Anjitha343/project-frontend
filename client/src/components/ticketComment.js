@@ -12,7 +12,7 @@ const TicketComments = ({ ticketId }) => {
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/comments/${ticketId}`, {
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}/comments/${ticketId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setComments(res.data);
@@ -31,7 +31,7 @@ const TicketComments = ({ ticketId }) => {
     setLoading(true);
     try {
       const res = await axios.post(
-        'http://localhost:5000/api/comments',
+        `${process.env.REACT_APP_API_URL}/comments`,
         { ticketId, text },
         { headers: { Authorization: `Bearer ${token}` } }
       );
