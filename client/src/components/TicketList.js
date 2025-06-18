@@ -20,7 +20,7 @@ const TicketList = ({ projectId, token }) => {
 
   useEffect(() => {
    fetchTickets();
-  }, [projectId, token]);
+  }, [fetchTickets]);
 
   const handleEdit = (ticket) => {
     setEditingTicket(ticket);
