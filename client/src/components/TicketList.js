@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import TicketForm from './TicketForm';
 
@@ -7,7 +7,7 @@ const TicketList = ({ projectId, token }) => {
   const [editingTicket, setEditingTicket] = useState(null);
   const [ticketToDelete, setTicketToDelete] = useState(null); // ⬅️ For modal
 
-  const fetchTickets = async () => {
+  const fetchTickets =useCallback( async () => {
     try {
       const res = await axios.get(`http://localhost:5000/api/tickets/project/${projectId}`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -16,7 +16,7 @@ const TicketList = ({ projectId, token }) => {
     } catch (err) {
       console.error(err);
     }
-  };
+  },[projectId,token]);
 
   useEffect(() => {
    fetchTickets();
