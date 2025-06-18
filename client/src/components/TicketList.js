@@ -7,10 +7,7 @@ const TicketList = ({ projectId, token }) => {
   const [editingTicket, setEditingTicket] = useState(null);
   const [ticketToDelete, setTicketToDelete] = useState(null); // ⬅️ For modal
 
-  
-
-  useEffect(() => {
-    const fetchTickets = async () => {
+  const fetchTickets = async () => {
     try {
       const res = await axios.get(`http://localhost:5000/api/tickets/project/${projectId}`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -20,7 +17,9 @@ const TicketList = ({ projectId, token }) => {
       console.error(err);
     }
   };
-    fetchTickets();
+
+  useEffect(() => {
+   fetchTickets();
   }, [projectId, token]);
 
   const handleEdit = (ticket) => {
