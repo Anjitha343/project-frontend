@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Create axios instance with base URL
 const API = axios.create({
-  baseURL:process.env.REACT_APP_API_URL,
+  baseURL:process.env.REACT_APP_API_URL+"/api",
 });
 
 // Project API calls
